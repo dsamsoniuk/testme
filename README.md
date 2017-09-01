@@ -6,4 +6,4 @@ zmiana 5
 zmiana 7
 zm8
 zm9
-zm11
+zm12
