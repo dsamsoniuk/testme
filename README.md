@@ -9,4 +9,4 @@ zm9
 zm10
 zmiana totalna
 zm x
-zm3-dodatkowa
+zm3
