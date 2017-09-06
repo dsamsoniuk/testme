@@ -7,3 +7,4 @@ zmiana 7
 zm8
 zm9
 zm10
+zmiana totalna
