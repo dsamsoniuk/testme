@@ -7,3 +7,4 @@ zm3-dodatkowa
 zmiana 4
 zmiana 6
 yyyyyyyyyyyyyyyyyyy
+6666666
