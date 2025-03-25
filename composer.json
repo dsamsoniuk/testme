@@ -1,0 +1,15 @@
+{
+    "name": "damian/testme",
+    "autoload": {
+        "psr-4": {
+            "Damian\\Testme\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Damian",
+            "email": "damian@goelka.pl"
+        }
+    ],
+    "require": {}
+}

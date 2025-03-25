@@ -5,7 +5,9 @@ pipeline {
         stage('Hello') {
             steps {
                 echo 'Hello World'
-                sh 'cd ~/ & pwd'
+                sh 'pwd'
+                sh 'npm i'
+                sh 'composer i'
             }
         }
     }
