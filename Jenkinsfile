@@ -6,8 +6,8 @@ pipeline {
             steps {
                 echo 'Hello World'
                 sh 'pwd'
-                sh 'npm i'
-                sh 'composer i'
+                // sh 'npm i'
+                // sh 'composer i'
             }
         }
     }
