@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # openproject:
+  #   image: openproject/community:13.4.1-slim
+  #   container_name: openproject
+  #   restart: always
+  #   environment:
+  #     OPENPROJECT_HTTPS: 'false'  # Ustaw na 'true', jeśli używasz HTTPS
+  #     OPENPROJECT_SECRET_KEY_BASE: 'twoj-sekret-key'
+  #     OPENPROJECT_EMAIL_DELIVERY_METHOD: 'smtp'
+  #     OPENPROJECT_EMAIL_SMTP_ADDRESS: 'smtp.gmail.com'
+  #     OPENPROJECT_EMAIL_SMTP_PORT: '587'
+  #     OPENPROJECT_EMAIL_SMTP_USER: 'twoj-email@gmail.com'
+  #     OPENPROJECT_EMAIL_SMTP_PASSWORD: 'twoje-haslo'
+  #     OPENPROJECT_EMAIL_SMTP_DOMAIN: 'gmail.com'
+  #     OPENPROJECT_EMAIL_SMTP_AUTHENTICATION: 'plain'
+  #     OPENPROJECT_EMAIL_SMTP_ENABLE_STARTTLS_AUTO: 'true'
+  #   ports:
+  #     - '8080:3000'  # Port zewnętrzny:port aplikacji wewnątrz kontenera
+  #   volumes:
+  #     - openproject_data:/var/lib/openproject
+  #     - openproject_logs:/var/log/openproject
+  #     - openproject_static:/var/db/openproject/static
+  #   networks:
+  #     - openproject_net
+
+  # CHAT
+
+  mongo:
+      image: mongo:6.0
+      container_name: rocket_mongo
+      restart: always
+      volumes:
+        - mongo_data:/data/db
+      networks:
+        - rocket_net
+
+  rocketchat:
+    image: rocketchat/rocket.chat:7.4.0
+    container_name: rocket_chat
+    restart: always
+    environment:
+      MONGO_URL: 'mongodb://mongo:27017/rocketchat'
+      MONGO_OPLOG_URL: 'mongodb://mongo:27017/local'
+      ROOT_URL: 'http://localhost:3000'  # Zamień na IP lub domenę, jeśli hostujesz zdalnie
+      PORT: 3000
+      ADMIN_USERNAME: 'admin'              # Ustawienia pierwszego konta admina
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'securepassword123'  # Zmień na mocne hasło
+      ADMIN_NAME: 'Admin User'
+    depends_on:
+      - mongo
+    ports:
+      - '3000:3000'
+    networks:
+      - rocket_net
+
+  mongo-init-replica:
+    image: mongo:6.0
+    container_name: mongo_init_replica
+    command: >
+      bash -c "for i in {1..30}; do 
+      mongo mongo/rocketchat --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"localhost:27017\"}]})' && break || sleep 5; 
+      done"
+    depends_on:
+      - mongo
+    networks:
+      - rocket_net
+
+volumes:
+  # openproject_data:
+  # openproject_logs:
+  # openproject_static:
+  mongo_data:
+networks:
+  # openproject_net:
+  rocket_net:
