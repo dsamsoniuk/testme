@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    tools {
-        nodejs 'NodeJS_LTS'  // Nazwa narzędzia z Global Tool Configuration
-    }
+    // tools {
+    //     nodejs 'NodeJS_LTS'  // Nazwa narzędzia z Global Tool Configuration
+    // }
     stages {
         stage('Hello') {
             steps {
